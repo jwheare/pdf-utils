@@ -2,9 +2,9 @@
 
 # http://pypi.python.org/pypi/fish/
 # This is the only essential dependency
-from fish import SwimFishProgressSync, SingleLineFishPrinter, Bird
+import fish
 import string
-class YayLook(SingleLineFishPrinter):
+class YayLook(fish.SingleLineFishPrinter):
     shape = " :D" # choose your own shape!
     trans = string.maketrans("/\[](){}<>76D", "\/][)(}{></9C")
     def render(self, step, reverse=False):
@@ -15,7 +15,11 @@ class YayLook(SingleLineFishPrinter):
     def own_length(self):
         return len(self.shape)
 
-class ProgressYay(SwimFishProgressSync, YayLook):
+class ProgressYay(fish.SwimFishProgressSync, YayLook):
+    pass
+
+class ProgressSalmon(fish.SwimFishProgressSync, fish.SalmonLook):
+    own_length = len(" ><{{{*>")
     pass
 
 # http://pybrary.net/pyPdf/
@@ -84,6 +88,6 @@ def write_file():
 t = threading.Thread(target=write_file)
 t.start()
 
-b = Bird(velocity=30)
+b = fish.Bird(velocity=30)
 while t.is_alive():
     b.animate()
